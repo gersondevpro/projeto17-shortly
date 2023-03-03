@@ -20,7 +20,7 @@ async function newUrl(req, res) {
         }
 
         const teste = await db.query(`SELECT * FROM urls`)
-        res.status(201).send(teste.rows);
+        res.status(201).send(renderUrl);
     } catch (error) {
         res.status(500).send(error.message);
     };
