@@ -4,8 +4,7 @@ import { nanoid } from "nanoid";
 async function newUrl(req, res) {
 
     const { url } = req.body;
-    const userId = res.locals.userId; 
-    console.log(userId)
+    const userId = res.locals.userId;
 
     try {
 
@@ -19,7 +18,6 @@ async function newUrl(req, res) {
             shortUrl: findUrl.rows[0].shortUrl
         }
 
-        const teste = await db.query(`SELECT * FROM urls`)
         res.status(201).send(renderUrl);
     } catch (error) {
         res.status(500).send(error.message);
@@ -44,15 +42,12 @@ async function openUrl(req, res) {
     try {
 
         const findShortUrl = await db.query(`SELECT * FROM urls WHERE "shortUrl" = $1`, [shortUrl]);
-        console.log(findShortUrl.rows.length)
 
         if (findShortUrl.rows.length === 0) {
             return res.sendStatus(404);
         };
-        console.log(findShortUrl.rows[0].visitCount + 1)
-        await db.query(`UPDATE urls SET "visitCount" = $1 WHERE "shortUrl" = $2`, [findShortUrl.rows[0].visitCount + 1, shortUrl]);
 
-        console.log(findShortUrl.rows[0].url)
+        await db.query(`UPDATE urls SET "visitCount" = $1 WHERE "shortUrl" = $2`, [findShortUrl.rows[0].visitCount + 1, shortUrl]);
 
         res.redirect(findShortUrl.rows[0].url)
 
