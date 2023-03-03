@@ -44,8 +44,9 @@ async function openUrl(req, res) {
     try {
 
         const findShortUrl = await db.query(`SELECT * FROM urls WHERE "shortUrl" = $1`, [shortUrl]);
+        console.log(findShortUrl.rows.length)
 
-        if (findShortUrl.rows[0].length === 0) {
+        if (findShortUrl.rows.length === 0) {
             return res.sendStatus(404);
         };
         console.log(findShortUrl.rows[0].visitCount + 1)
